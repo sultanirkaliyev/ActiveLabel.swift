@@ -64,6 +64,55 @@ typealias ElementTuple = (range: NSRange, element: ActiveElement, type: ActiveTy
         didSet { updateTextStorage(parseText: false) }
     }
     
+    //MARK: - UILabelDeviceClass
+    
+    @IBInspectable var iPhoneFontSize:CGFloat = 0 {
+        didSet {
+            overrideFontSize(fontSize: iPhoneFontSize)
+        }
+    }
+   
+    var textInsets = UIEdgeInsets.zero {
+        didSet { invalidateIntrinsicContentSize() }
+    }
+
+    func overrideFontSize(fontSize:CGFloat) {
+        
+        let currentFontName = self.font.fontName
+        var calculatedFont: UIFont?
+        let bounds = UIScreen.main.bounds
+        let height = bounds.size.height
+        switch height {
+        case 480.0: //Iphone 3,4,SE => 3.5 inch
+            calculatedFont = UIFont(name: currentFontName, size: fontSize)
+            self.font = calculatedFont
+            break
+        case 568.0: //iphone 5, 5s, 5c, SE => 4 inch
+            calculatedFont = UIFont(name: currentFontName, size: fontSize)
+            self.font = calculatedFont
+            break
+        case 667.0: //iphone 6, 6s, 7, 8 => 4.7 inch
+            calculatedFont = UIFont(name: currentFontName, size: fontSize + 2)
+            self.font = calculatedFont
+            break
+        case 736.0: //iphone 6s+ 6+ 7+ 8+ => 5.5 inch
+            calculatedFont = UIFont(name: currentFontName, size: fontSize + 2)
+            self.font = calculatedFont
+            break
+        case 812.0: // iphone X, Xs
+            calculatedFont = UIFont(name: currentFontName, size: fontSize + 3)
+            self.font = calculatedFont
+            break
+        case 896.0: // iphone Xr, Xs Max
+            calculatedFont = UIFont(name: currentFontName, size: fontSize + 3)
+            self.font = calculatedFont
+            break
+        default:
+            print("not an iPhone")
+            break
+        }
+    }
+    
     // MARK: - Computed Properties
     private var hightlightFont: UIFont? {
         guard let highlightFontName = highlightFontName, let highlightFontSize = highlightFontSize else { return nil }
