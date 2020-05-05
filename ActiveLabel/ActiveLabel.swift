@@ -76,7 +76,7 @@ typealias ElementTuple = (range: NSRange, element: ActiveElement, type: ActiveTy
         didSet { invalidateIntrinsicContentSize() }
     }
 
-    func overrideFontSize(fontSize:CGFloat) {
+    open func overrideFontSize(fontSize:CGFloat) {
         
         let currentFontName = self.font.fontName
         var calculatedFont: UIFont?
